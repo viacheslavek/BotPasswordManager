@@ -1,6 +1,13 @@
 FROM golang:alpine
 
-WORKDIR /app
+WORKDIR /go/src/myapp
 
 COPY . .
 
+RUN go mod download
+
+RUN go build -o myapp cmd/main.go
+
+EXPOSE 8080
+
+CMD ["./myapp"]
