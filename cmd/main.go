@@ -1,22 +1,43 @@
 package main
 
 import (
+	"flag"
 	"fmt"
-	"net/http"
+	"log"
 )
 
 func main() {
-	http.HandleFunc("/docker", func(w http.ResponseWriter, req *http.Request) {
-		_, err := fmt.Fprint(w, "HELLO WORLD 333")
-		if err != nil {
-			return
-		}
-	})
 
-	fmt.Println("AAAA3")
+	t := mustToken()
 
-	err := http.ListenAndServe(":8080", nil)
-	if err != nil {
-		return
+	fmt.Println(t)
+
+	log.Println("app starting")
+
+	// tgClient = telegram.New(t)
+
+	// fetcher = fetcher.New(tgClient)
+
+	// processor = processor.New(tgClient)
+
+	// consumer.Start(fetcher, processor)
+
+}
+
+func mustToken() string {
+	token := flag.String(
+		"tg_token",
+		"",
+		"token for access telegram bot",
+	)
+
+	flag.Parse()
+
+	if *token == "" {
+		log.Fatal("space token")
 	}
+
+	log.Println("get possible token")
+
+	return *token
 }

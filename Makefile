@@ -2,7 +2,15 @@ all: run
 
 .PHONY: build
 build:
-	docker compose -f docker-compose.yml up -d app
+	docker-compose build
+
+.PHONY: run
+run: build
+	docker-compose up -d
+
+.PHONY: stop
+stop:
+	docker-compose down
 
 .PHONY: runServer
 runServer:
@@ -12,11 +20,8 @@ runServer:
 buildServer:
 	docker build -t myapp .
 
-.PHONY: run
-run: build
-	docker run --rm -p 80:8080 myapp
-
 .PHONY: db
 db:
 	docker compose -f docker-compose.yml up -d db
+
 
