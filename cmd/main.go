@@ -7,6 +7,10 @@ import (
 	"os"
 )
 
+const (
+	tgBotHost = "api.telegram.org"
+)
+
 func main() {
 
 	t := mustToken()
@@ -15,9 +19,11 @@ func main() {
 
 	log.Println("app starting")
 
-	tgClient := telegram.New("host", t)
+	tgClient := telegram.New(tgBotHost, t)
 
 	fmt.Println(tgClient)
+
+	fmt.Println("ok all")
 
 	// fetcher = fetcher.New(tgClient)
 
