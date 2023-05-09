@@ -2,21 +2,49 @@ package main
 
 import (
 	"fmt"
-	"net/http"
+	"github.com/VyacheslavIsWorkingNow/BotPasswordManager/clients/telegram"
+	tgEvents "github.com/VyacheslavIsWorkingNow/BotPasswordManager/events/telegram"
+	"log"
+	"os"
+)
+
+const (
+	tgBotHost = "api.telegram.org"
 )
 
 func main() {
-	http.HandleFunc("/docker", func(w http.ResponseWriter, req *http.Request) {
-		_, err := fmt.Fprint(w, "HELLO WORLD 333")
-		if err != nil {
-			return
-		}
-	})
 
-	fmt.Println("AAAA3")
+	t := mustToken()
 
-	err := http.ListenAndServe(":8080", nil)
-	if err != nil {
-		return
+	log.Println("app starting")
+
+	tgClient := telegram.NewClient(tgBotHost, t)
+
+	log.Println("tgClient init")
+
+	fmt.Println("ok all")
+
+	// fetcher = fetcher.New(tgClient)
+
+	processor := tgEvents.NewProcessor(tgClient)
+
+	log.Println("tgProcessor init")
+
+	fmt.Println(processor)
+
+	// consumer.Start(fetcher, processor)
+
+}
+
+func mustToken() string {
+
+	token := os.Getenv("TELEGRAM_TOKEN")
+
+	if token == "" {
+		log.Fatal("space token")
 	}
+
+	log.Println("get possible token")
+
+	return token
 }

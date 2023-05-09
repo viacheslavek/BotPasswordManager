@@ -11,6 +11,9 @@ services:
   app:
     build:
       dockerfile: Dockerfile
+    container_name: myapp
+    environment:
+      TELEGRAM_TOKEN: "${TELEGRAM_TOKEN}"
     ports:
       - "8080:8080"
     depends_on:

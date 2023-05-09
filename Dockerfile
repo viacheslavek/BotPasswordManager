@@ -1,6 +1,6 @@
 FROM golang:alpine
 
-WORKDIR /go/src/myapp
+WORKDIR /go/src/BotPasswordManager
 
 COPY . .
 
