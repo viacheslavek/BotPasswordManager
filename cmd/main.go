@@ -1,9 +1,10 @@
 package main
 
 import (
-	"flag"
 	"fmt"
+	"github.com/VyacheslavIsWorkingNow/BotPasswordManager/clients/telegram"
 	"log"
+	"os"
 )
 
 func main() {
@@ -14,7 +15,9 @@ func main() {
 
 	log.Println("app starting")
 
-	// tgClient = telegram.New(t)
+	tgClient := telegram.New("host", t)
+
+	fmt.Println(tgClient)
 
 	// fetcher = fetcher.New(tgClient)
 
@@ -25,19 +28,14 @@ func main() {
 }
 
 func mustToken() string {
-	token := flag.String(
-		"tg_token",
-		"",
-		"token for access telegram bot",
-	)
 
-	flag.Parse()
+	token := os.Getenv("TELEGRAM_TOKEN")
 
-	if *token == "" {
+	if token == "" {
 		log.Fatal("space token")
 	}
 
 	log.Println("get possible token")
 
-	return *token
+	return token
 }

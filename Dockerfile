@@ -1,6 +1,6 @@
 FROM golang:alpine
 
-WORKDIR /go/src/myapp
+WORKDIR /go/src/BotPasswordManager
 
 COPY . .
 
@@ -10,4 +10,4 @@ RUN go build -o myapp cmd/main.go
 
 EXPOSE 8080
 
-CMD ["./myapp", "-tg_token", "${TELEGRAM_TOKEN}"]
+CMD ["./myapp"]
