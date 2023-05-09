@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/VyacheslavIsWorkingNow/BotPasswordManager/clients/telegram"
+	tgEvents "github.com/VyacheslavIsWorkingNow/BotPasswordManager/events/telegram"
 	"log"
 	"os"
 )
@@ -15,19 +16,21 @@ func main() {
 
 	t := mustToken()
 
-	fmt.Println(t)
-
 	log.Println("app starting")
 
-	tgClient := telegram.New(tgBotHost, t)
+	tgClient := telegram.NewClient(tgBotHost, t)
 
-	fmt.Println(tgClient)
+	log.Println("tgClient init")
 
 	fmt.Println("ok all")
 
 	// fetcher = fetcher.New(tgClient)
 
-	// processor = processor.New(tgClient)
+	processor := tgEvents.NewProcessor(tgClient)
+
+	log.Println("tgProcessor init")
+
+	fmt.Println(processor)
 
 	// consumer.Start(fetcher, processor)
 
