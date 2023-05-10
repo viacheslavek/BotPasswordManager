@@ -24,6 +24,8 @@ func main() {
 
 	log.Println("tgClient init")
 
+	// time.Sleep(1 * time.Second)
+
 	db, err := postgresql.New()
 	if err != nil {
 		log.Fatalf("can't up db %e", err)
@@ -34,9 +36,7 @@ func main() {
 		log.Fatalf("can't init db %e", err)
 	}
 
-	fmt.Println(db)
-
-	processor := tgEvents.NewProcessor(tgClient)
+	processor := tgEvents.NewProcessor(&tgClient, db)
 
 	log.Println("tgProcessor init")
 

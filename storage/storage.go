@@ -1,9 +1,11 @@
 package storage
 
+import "context"
+
 type Storage interface {
-	SaveAccount(a *Account) error
-	GetAccount(username string, site string) (Account, error)
-	DeleteAccount(a *Account) error
+	SaveAccount(ctx context.Context, a *Account) error
+	GetAccount(ctx context.Context, username string, site string) ([]Account, error)
+	DeleteAccount(ctx context.Context, a *Account) error
 }
 
 type Account struct {
