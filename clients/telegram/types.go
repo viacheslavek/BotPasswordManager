@@ -9,11 +9,25 @@ type Client struct {
 }
 
 type Update struct {
-	ID      int    `json:"id"`
-	Message string `json:"message"`
+	ID      int              `json:"id"`
+	Message *IncomingMessage `json:"message"`
 }
 
 type UpdateResponse struct {
 	Ok     bool     `json:"ok"`
 	Result []Update `json:"result"`
+}
+
+type IncomingMessage struct {
+	Text string `json:"text"`
+	From From   `json:"from"`
+	Chat Chat   `json:"chat"`
+}
+
+type From struct {
+	Username string `json:"username"`
+}
+
+type Chat struct {
+	ID int `json:"id"`
 }

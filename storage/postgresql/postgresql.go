@@ -147,7 +147,7 @@ func (s *Storage) DeleteAccount(ctx context.Context, a *storage.Account) error {
 	}
 
 	q := `
-		DELETE FROM account ()
+		DELETE FROM account
 		WHERE site_id = $1 AND client_id = $2 AND password = $3 AND login = $4
 	`
 
@@ -164,7 +164,8 @@ func (s *Storage) addClient(ctx context.Context, client string) (int, error) {
 	q := `
 		SELECT count(*), client_id
 		FROM client
-		WHERE client_name = $1;
+		WHERE client_name = $1
+		GROUP BY client_id;
 	`
 
 	rows, err := s.db.Query(ctx, q, client)
@@ -225,7 +226,8 @@ func (s *Storage) addSite(ctx context.Context, site string) (int, error) {
 	q := `
 		SELECT count(*), site_id
 		FROM site
-		WHERE site_name = $1;
+		WHERE site_name = $1
+		GROUP BY site_id;
 	`
 
 	rows, err := s.db.Query(ctx, q, site)
