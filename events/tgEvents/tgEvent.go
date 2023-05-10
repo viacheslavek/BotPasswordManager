@@ -73,7 +73,10 @@ func (p *Processor) processMessage(e events.Event) error {
 		return fmt.Errorf("can't process message %w\n", err)
 	}
 
-	fmt.Println(m)
+	if err = p.doCmd(e.Text, m.ChatID, m.Username); err != nil {
+		return fmt.Errorf("can't do cmd in processMessage %w\n", err)
+	}
+
 	return nil
 }
 
@@ -107,7 +110,7 @@ func fetchText(u telegram.Update) string {
 	return u.Message.Text
 }
 
-func fetchType(u telegram.Update) string {
+func fetchType(u telegram.Update) events.Type {
 	if u.Message == nil {
 		return events.Unknown
 	} else {
