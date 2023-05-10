@@ -1,9 +1,11 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"github.com/VyacheslavIsWorkingNow/BotPasswordManager/clients/telegram"
-	tgEvents "github.com/VyacheslavIsWorkingNow/BotPasswordManager/events/telegram"
+	"github.com/VyacheslavIsWorkingNow/BotPasswordManager/events/tgEvents"
+	"github.com/VyacheslavIsWorkingNow/BotPasswordManager/storage/postgresql"
 	"log"
 	"os"
 )
@@ -22,15 +24,25 @@ func main() {
 
 	log.Println("tgClient init")
 
-	fmt.Println("ok all")
+	// time.Sleep(1 * time.Second)
 
-	// fetcher = fetcher.New(tgClient)
+	db, err := postgresql.New()
+	if err != nil {
+		log.Fatalf("can't up db %e", err)
+	}
 
-	processor := tgEvents.NewProcessor(tgClient)
+	err = db.Init(context.Background())
+	if err != nil {
+		log.Fatalf("can't init db %e", err)
+	}
+
+	processor := tgEvents.NewProcessor(&tgClient, db)
 
 	log.Println("tgProcessor init")
 
 	fmt.Println(processor)
+
+	// fetcher = fetcher.New(tgClient)
 
 	// consumer.Start(fetcher, processor)
 
