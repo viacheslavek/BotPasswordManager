@@ -2,8 +2,8 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"github.com/VyacheslavIsWorkingNow/BotPasswordManager/clients/telegram"
+	"github.com/VyacheslavIsWorkingNow/BotPasswordManager/comsumer/eventConsumer"
 	"github.com/VyacheslavIsWorkingNow/BotPasswordManager/events/tgEvents"
 	"github.com/VyacheslavIsWorkingNow/BotPasswordManager/storage/postgresql"
 	"log"
@@ -12,6 +12,7 @@ import (
 
 const (
 	tgBotHost = "api.telegram.org"
+	batchSize = 100
 )
 
 func main() {
@@ -36,15 +37,15 @@ func main() {
 		log.Fatalf("can't init db %e", err)
 	}
 
-	processor := tgEvents.NewProcessor(&tgClient, db)
+	eventsProcessor := tgEvents.NewProcessor(&tgClient, db)
 
-	log.Println("tgProcessor init")
+	log.Println("eventsProcessor init")
 
-	fmt.Println(processor)
+	consumer := eventConsumer.NewConsumer(eventsProcessor, eventsProcessor, batchSize)
 
-	// fetcher = fetcher.New(tgClient)
-
-	// consumer.Start(fetcher, processor)
+	if err = consumer.Start(); err != nil {
+		log.Fatalf("consumer dead :( %e", err)
+	}
 
 }
 
